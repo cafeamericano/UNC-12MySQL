@@ -14,14 +14,13 @@ var connection = mysql.createConnection({
 connection.connect(function (err) {
     if (err) throw err;
     console.log("connected as id " + connection.threadId + "\n");
-    checkCurrentStock(11, 1000);
+    checkCurrentStockThenPullIfSufficientQuantity(11, 1000);
     showAllProducts()
 });
 
 //Functions////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function showAllProducts() {
-    console.log("Showing all products...\n");
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
         console.log('-----------------------------------------------------------------------------------------')
@@ -35,16 +34,15 @@ function showAllProducts() {
     });
 }
 
-function checkCurrentStock(itemID, desiredQuantity) {
-    console.log("Seeing how many we have in stock...\n");
+function checkCurrentStockThenPullIfSufficientQuantity(itemID, desiredQuantity) {
+    console.log("Seeing how many of those we have in stock...");
     connection.query(`SELECT * FROM products WHERE item_id='${itemID}'`, function (err, res) {
         if (err) throw err;
-        console.log(`*** ${res[0].product_name} ***`);
-        console.log(`Stock Quantity: ${res[0].stock_quantity}`);
         let currentStockCount = res[0].stock_quantity
         let unitPrice = res[0].price
+        console.log(`You're looking for ${desiredQuantity} ${res[0].product_name}s. We have ${res[0].stock_quantity} in stock.`);
         if (currentStockCount < desiredQuantity) {
-            console.log('Insufficient quantity!')
+            console.log('Sorry! Insufficient quantity!')
             return
         } else {
             decreaseStock(itemID, currentStockCount, desiredQuantity, unitPrice)
