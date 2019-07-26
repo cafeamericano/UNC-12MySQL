@@ -1,6 +1,7 @@
 //Requirements
 var mysql = require('mysql')
 var dbkeys = require('./dbkeys')
+var inquirer = require("inquirer");
 
 //Define Database Connection
 var connection = mysql.createConnection({
@@ -14,7 +15,10 @@ var connection = mysql.createConnection({
 connection.connect(function (err) {
     if (err) throw err;
     console.log("connected as id " + connection.threadId + "\n");
-    checkStock(11, 2);
+    showAllProducts()
+    setTimeout(function () {
+        runInquirer()
+    }, 1000);
 });
 
 //Functions////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -30,7 +34,6 @@ function showAllProducts() {
             console.log(`| ${res[i].product_name}     \t | ${res[i].item_id} \t | ${res[i].department_name}     \t | ${res[i].price}     \t | ${res[i].stock_quantity}            \t|`);
         }
         console.log('-----------------------------------------------------------------------------------------')
-        connection.end()
     });
 }
 
@@ -42,7 +45,7 @@ function checkStock(itemID, desiredQuantity) {
         let unitPrice = res[0].price
         console.log(`You're looking for ${desiredQuantity} ${res[0].product_name}s. We have ${res[0].stock_quantity} in stock.`);
         if (currentStockCount < desiredQuantity) {
-            console.log('Sorry! Insufficient quantity!')
+            console.log('Sorry! Insufficient quantity!\n')
             return
         } else {
             decreaseStockAndShowAll(itemID, currentStockCount, desiredQuantity, unitPrice)
@@ -66,6 +69,45 @@ function decreaseStockAndShowAll(itemID, currentStockCount, desiredQuantity, uni
             if (err) throw err;
         }
     );
-    console.log(`Done. The total cost is $${unitPrice * desiredQuantity}\n`)
+    console.log(`Done. The total cost is $${(unitPrice * desiredQuantity).toFixed(2)}\n`)
     showAllProducts()
 };
+
+//Inquirer////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function runInquirer() {
+    inquirer.prompt([
+        {
+            type: "input",
+            name: "itemID",
+            message: "Enter the item ID of the product that you would like to purchase."
+        },
+        {
+            type: "input",
+            name: "quantity",
+            message: "How many of these would you like to purchase?",
+        }
+    ]).then(function (answer) {
+        checkStock(answer.itemID, answer.quantity)
+        setTimeout(function () {
+            askClientToBuyMore()
+        }, 1000);
+    });
+}
+
+function askClientToBuyMore() {
+    inquirer.prompt([
+        {
+            type: "confirm",
+            name: "buyMore",
+            message: "Would you like to make another purchase?"
+        },
+    ]).then(function (clientWill) {
+        if (clientWill.buyMore) {
+            runInquirer()
+        } else {
+            console.log(`\n Goodbye! \n`)
+            process.exit()
+        }
+    })
+}
