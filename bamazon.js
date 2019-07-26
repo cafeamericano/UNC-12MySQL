@@ -14,13 +14,13 @@ var connection = mysql.createConnection({
 connection.connect(function (err) {
     if (err) throw err;
     console.log("connected as id " + connection.threadId + "\n");
-    checkCurrentStockThenPullIfSufficientQuantity(11, 1000);
-    showAllProducts()
+    checkStock(11, 2);
 });
 
 //Functions////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function showAllProducts() {
+    console.log(`Showing current inventory list:`)
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
         console.log('-----------------------------------------------------------------------------------------')
@@ -34,7 +34,7 @@ function showAllProducts() {
     });
 }
 
-function checkCurrentStockThenPullIfSufficientQuantity(itemID, desiredQuantity) {
+function checkStock(itemID, desiredQuantity) {
     console.log("Seeing how many of those we have in stock...");
     connection.query(`SELECT * FROM products WHERE item_id='${itemID}'`, function (err, res) {
         if (err) throw err;
@@ -45,13 +45,13 @@ function checkCurrentStockThenPullIfSufficientQuantity(itemID, desiredQuantity) 
             console.log('Sorry! Insufficient quantity!')
             return
         } else {
-            decreaseStock(itemID, currentStockCount, desiredQuantity, unitPrice)
+            decreaseStockAndShowAll(itemID, currentStockCount, desiredQuantity, unitPrice)
         }
     })
 };
 
-function decreaseStock(itemID, currentStockCount, desiredQuantity, unitPrice) {
-    console.log("Pulling from the shelf...\n");
+function decreaseStockAndShowAll(itemID, currentStockCount, desiredQuantity, unitPrice) {
+    console.log("Pulling from the shelf...");
     connection.query(
         "UPDATE products SET ? WHERE ?",
         [
@@ -66,5 +66,6 @@ function decreaseStock(itemID, currentStockCount, desiredQuantity, unitPrice) {
             if (err) throw err;
         }
     );
-    console.log(`Done. The total cost is ${unitPrice * desiredQuantity}`)
+    console.log(`Done. The total cost is $${unitPrice * desiredQuantity}\n`)
+    showAllProducts()
 };
