@@ -68,6 +68,7 @@ function increaseStock(itemID, desiredAddAmount) {
                 }
             );
             console.log(`Done. You now have ${newStockTotal} of these items in stock. \n`)
+            inquireMain()
         }
     );
 };
