@@ -9,16 +9,16 @@ This application, titled 'Bamazon', is an application where a user can access an
 ### Customer View
 `node bamazon.js`
 
-![ Customer Photo Demonstration ](/demoMedia/bamazonStill.png)
+![ Customer Photo Demonstration ](./demoMedia/bamazonStill.png)
 
-Run the above command to access Bamazon as a customer. Make purchases and deplete the company's inventory. Click the link above to access the download link for a demonstrative video. ![ Customer Video Demonstration ](/demoMedia/bamazon.mov)
+Run the above command to access Bamazon as a customer. Make purchases and deplete the company's inventory. Click the following link to access the download link for a demonstrative video. ![ Customer Video Demonstration ](./demoMedia/bamazon.mov)
 
 ### Manager View
 `node bamazonManager.js`
 
-![ Customer Photo Demonstration ](/demoMedia/bamazonManagerStill.png)
+![ Customer Photo Demonstration ](./demoMedia/bamazonManagerStill.png)
 
-Run the above command to access Bamazon as a customer. Find items in the inventory with stock quantities less than five, add more inventory to existing items, and add new items to the company's available inventory. Click the link above to access the download link for a demonstrative video. ![ Manager Video Demonstration ](/demoMedia/bamazonManager.mov)
+Run the above command to access Bamazon as a customer. Find items in the inventory with stock quantities less than five, add more inventory to existing items, and add new items to the company's available inventory. Click the following link to access the download link for a demonstrative video. ![ Manager Video Demonstration ](./demoMedia/bamazonManager.mov)
 
 ## Additional Information
 
