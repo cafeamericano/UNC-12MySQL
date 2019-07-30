@@ -59,7 +59,8 @@ function decreaseStockAndShowAll(itemID, currentStockCount, desiredQuantity, uni
         "UPDATE products SET ? WHERE ?",
         [
             {
-                stock_quantity: (currentStockCount - desiredQuantity)
+                stock_quantity: (currentStockCount - desiredQuantity),
+                product_sales: (unitPrice * desiredQuantity)
             },
             {
                 item_id: itemID

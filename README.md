@@ -7,11 +7,11 @@ This application, titled 'Bamazon', is an application where a user can access an
 ## Features
 
 ### Customer View
-`node bamazon.js`
+`node bamazonCustomer.js`
 
-![ Customer Photo Demonstration ](/demoMedia/bamazon.png)
+![ Customer Photo Demonstration ](/demoMedia/bamazonCustomer.png)
 
-Run the above command to access Bamazon as a customer. Make purchases and deplete the company's inventory. Click the following link to access the download link for a demonstrative video. ![ Customer Video Demonstration ](/demoMedia/bamazonVideo.mov)
+Run the above command to access Bamazon as a customer. Make purchases and deplete the company's inventory. Click the following link to access the download link for a demonstrative video. ![ Customer Video Demonstration ](/demoMedia/bamazonCustomerVideo.mov)
 
 ### Manager View
 `node bamazonManager.js`
